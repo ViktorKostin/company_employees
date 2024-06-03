@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "pythonproject"
+version = "0.1.0"
+description = ""
+authors = ["Viktor Kostin <vkostin@faceport.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+alembic = "^1.13.1"
+asyncpg = "^0.29.0"
+psycopg = "^3.1.19"
+psycopg-binary = "^3.1.19"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.30"}
+fastapi = "^0.111.0"
+pydantic = "^2.7.1"
+pydantic-settings = "^2.2.1"
+uvicorn = "^0.29.0"
+granian = "^1.4.1"
+aiohttp = "^3.9.5"
+orjson = "^3.10.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

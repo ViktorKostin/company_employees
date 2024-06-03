@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+
+  company:
+    build:
+      context: .
+      dockerfile: company/Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db_service:5432/company_db
+      - DB_HOST=db_service
+    depends_on:
+      - db_service
+    networks:
+      - company-employee-network
+
+  employee:
+    build:
+      context: .
+      dockerfile: employee/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db_service:5432/employee_db
+    depends_on:
+      - db_service
+    networks:
+      - company-employee-network
+
+  company_employee_relationship:
+    build:
+      context: .
+      dockerfile: company_employee_relationship/Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db_service:5432/relationship_db
+    depends_on:
+      - db_service
+    networks:
+      - company-employee-network
+
+  db_service:
+    image: public.ecr.aws/docker/library/postgres:alpine3.20
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - company-employee-network
+
+volumes:
+  postgres-data:
+
+networks:
+  company-employee-network:
